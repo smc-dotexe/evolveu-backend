@@ -57,14 +57,25 @@ class Tech extends React.Component{
         })
 }
 
-        // removeTech(e) {
-        //     const urlRemoveTech = 'http://127.0.0.1:5000/remove_tech'
-        //     fetch(urlRemoveTech, {
-        //         method:'POST',
-        //         headers: {'Content-Type':'application/json'},
-        //         body: JSON.stringify({id: })               
-        //     }
-        // }
+        removeTech(tech) {
+            let confirmString = 'Are you sure you want to remove ' + tech.first_name + ' ' + tech.last_name + ' from the system?'
+            if (window.confirm(confirmString)) {
+            console.log('E', tech.tech_id)
+            const urlRemoveTech = 'http://127.0.0.1:5000/remove_tech'
+            fetch(urlRemoveTech, {
+                method:'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({'tech_id': tech.tech_id})               
+            })
+            .then(function(response) {
+                if(response.ok){
+                  return response.json();
+              }{
+                  throw new Error("Post Failed")
+              }})
+            .then(data => this.setState({techs:data}))
+            }
+        }
 
 
     handleChange = (e) => {
@@ -98,7 +109,7 @@ class Tech extends React.Component{
                     <td>{tech.last_name}</td> 
                     <td>{tech.position}</td>
                     <td>{tech.apprentice_year}</td>
-                    <td><button onClick={this.removeTech}>x</button></td>
+                    <td><button onClick={()=>this.removeTech(tech)}>Remove Technician</button></td>
                 </tr>
             )
         }

@@ -103,9 +103,12 @@ def add_tech():
 def remove_tech():
     if request.method == 'POST':
         json_data = request.get_json(force=True)
-        remove_data = Tech.query.filter_by(first_name=json_data['first_name']).first()
+        remove_data = Tech.query.filter_by(tech_id=json_data['tech_id']).first()
         db.session.delete(remove_data)
         db.session.commit()
+    else:
+        print('FROM REMOVE_TECH ELSE')
+    return redirect(url_for('tech_list'))
 
 
 @app.route('/jobs')
