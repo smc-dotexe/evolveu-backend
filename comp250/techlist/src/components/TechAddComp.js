@@ -1,4 +1,5 @@
 import React from 'react'
+import EditTech from './EditTechComp'
 
 class Tech extends React.Component{
     constructor(){
@@ -6,11 +7,9 @@ class Tech extends React.Component{
         this.state = {
             isLoading: false,
             techs: [],
-            firstName:'',
-            lastName:'',
             position:'',
             apprenticeYear: 0,
-            counter: 0
+            editDisplay: false,
         }
     }
     
@@ -31,14 +30,17 @@ class Tech extends React.Component{
 
 
     submitTech = (e) => {
+        let firstName = document.getElementById('first_name').value
+        let lastName = document.getElementById('last_name').value
+
         e.preventDefault()
         const urlAddTech = 'http://127.0.0.1:5000/add_tech'
         fetch(urlAddTech, {
             method: 'POST',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify({
-                'first_name': this.state.firstName,
-                'last_name': this.state.lastName,
+                'first_name': firstName,
+                'last_name': lastName,
                 'position': this.state.position,
                 'apprentice_year': this.state.apprenticeYear,
             })
@@ -57,8 +59,10 @@ class Tech extends React.Component{
         })
 }
 
-        removeTech(tech) {
-            let confirmString = 'Are you sure you want to remove ' + tech.first_name + ' ' + tech.last_name + ' from the system?'
+        removeTech = (tech) => {
+            let confirmString = 'Are you sure you want to remove ' 
+                                + tech.first_name + ' ' + tech.last_name 
+                                + ' from the system?'
             if (window.confirm(confirmString)) {
             console.log('E', tech.tech_id)
             const urlRemoveTech = 'http://127.0.0.1:5000/remove_tech'
@@ -78,16 +82,15 @@ class Tech extends React.Component{
         }
 
 
+        editTech = (tech) => {
+            this.setState(prevState=>({editTech: !prevState.editTech}))
+        }
+
+
     handleChange = (e) => {
         let x = e.target.name
         let y = e.target.value
         switch(x) {
-            case 'first_name':
-                this.setState({firstName: y})
-                break
-            case 'last_name':
-                this.setState({lastName: y})
-                break
             case 'position':
                 this.setState({position: y})
                 break
@@ -95,7 +98,6 @@ class Tech extends React.Component{
                 this.setState({apprenticeYear: y})
             default:
                 return null
-
         }
     }
 
@@ -109,6 +111,7 @@ class Tech extends React.Component{
                     <td>{tech.last_name}</td> 
                     <td>{tech.position}</td>
                     <td>{tech.apprentice_year}</td>
+                    <td><button onClick={()=>this.editTech(tech)}>Edit Technician</button></td>
                     <td><button onClick={()=>this.removeTech(tech)}>Remove Technician</button></td>
                 </tr>
             )
@@ -122,8 +125,7 @@ class Tech extends React.Component{
                         id='first_name'
                         type='text'
                         name='first_name' 
-                        placeholder='First Name'
-                        onChange={this.handleChange}>
+                        placeholder='First Name'>
                     </input><br />
                     <input
                         id='last_name'
@@ -136,18 +138,18 @@ class Tech extends React.Component{
                         id='apprenticeRadio'
                         type='radio'
                         name='position'
-                        value='apprentice'
+                        value='Apprentice'
                         onChange={this.handleChange}>
                     </input>
-                    Apprentice
+                        Apprentice
                     <input
                         id='journeymanRadio'
                         type='radio'
                         name='position'
-                        value='journeyman'
+                        value='Journeyman'
                         onChange={this.handleChange}>
                     </input>
-                    Journeyman<br />
+                        Journeyman<br />
                     <label>Apprentice Year: </label>
                     <select
                         id='apprentice_year'
@@ -173,6 +175,9 @@ class Tech extends React.Component{
                         {techRows}
                     </tbody>
                 </table>
+            </div>
+            <div id='editTech'>
+                {this.state.editTech ? <EditTech /> : null}
             </div>
         </div>
         )

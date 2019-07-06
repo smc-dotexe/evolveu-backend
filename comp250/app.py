@@ -111,6 +111,11 @@ def remove_tech():
     return redirect(url_for('tech_list'))
 
 
+@app.route('/edit_tech', methods=['GET','POST'])
+def edit_tech():
+    pass 
+
+
 @app.route('/jobs')
 def jobs_list():
     jobs = Jobs.query.all()
