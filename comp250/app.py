@@ -99,7 +99,7 @@ def add_tech():
     return redirect(url_for('tech_list'))
 
 
-@app.route('/remove_tech', methods=['GET','POST'])
+@app.route('/remove_tech', methods=['GET', 'POST'])
 def remove_tech():
     if request.method == 'POST':
         json_data = request.get_json(force=True)

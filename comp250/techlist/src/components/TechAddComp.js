@@ -10,6 +10,7 @@ class Tech extends React.Component{
             position:'',
             apprenticeYear: 0,
             editDisplay: false,
+            selectedTech:''
         }
     }
     
@@ -46,25 +47,18 @@ class Tech extends React.Component{
             })
         })
         .then(function(response) {
-          if(response.ok){
-            return response.json();
-        }{
-            throw new Error("Post Failed")
-        }})
-
-        .then(data => this.setState({techs:data}))
-
-        .catch(function(error) {
-            console.log("Request failed", error);
+          if(response.ok){return response.json()}
+            {throw new Error("Post Failed")}
         })
+        .then(data => this.setState({techs:data}))
+        .catch(function(error) {console.log("Request failed", error);})
 }
 
-        removeTech = (tech) => {
-            let confirmString = 'Are you sure you want to remove ' 
-                                + tech.first_name + ' ' + tech.last_name 
-                                + ' from the system?'
-            if (window.confirm(confirmString)) {
-            console.log('E', tech.tech_id)
+    removeTech = (tech) => {
+        let confirmString = 'Are you sure you want to remove ' 
+                            + tech.first_name + ' ' + tech.last_name 
+                            + ' from the system?'
+        if (window.confirm(confirmString)) {
             const urlRemoveTech = 'http://127.0.0.1:5000/remove_tech'
             fetch(urlRemoveTech, {
                 method:'POST',
@@ -72,19 +66,21 @@ class Tech extends React.Component{
                 body: JSON.stringify({'tech_id': tech.tech_id})               
             })
             .then(function(response) {
-                if(response.ok){
-                  return response.json();
-              }{
-                  throw new Error("Post Failed")
-              }})
+                if(response.ok){return response.json()}
+                    {throw new Error("Post Failed")}
+                })
             .then(data => this.setState({techs:data}))
-            }
         }
+        this.setState(prevState=>({editDisplay: !prevState.editDisplay}))
+    }
 
 
-        editTech = (tech) => {
-            this.setState(prevState=>({editTech: !prevState.editTech}))
-        }
+    editTech = (tech) => {
+        console.log('edittech', this.state.editDisplay)
+        this.setState(prevState=>({
+            editDisplay: !prevState.editDisplay,
+            selectedTech: tech}))
+    }
 
 
     handleChange = (e) => {
@@ -177,7 +173,7 @@ class Tech extends React.Component{
                 </table>
             </div>
             <div id='editTech'>
-                {this.state.editTech ? <EditTech /> : null}
+                {this.state.editDisplay ? <EditTech passSelectedTech={this.state.selectedTech}/> : null}
             </div>
         </div>
         )
