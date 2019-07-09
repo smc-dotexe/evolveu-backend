@@ -111,9 +111,10 @@ def remove_tech():
     return redirect(url_for('tech_list'))
 
 
-@app.route('/edit_tech', methods=['GET','POST'])
+@app.route('/edit_tech/<int:id>', methods=['PATCH'])
 def edit_tech():
-    pass 
+    id = Tech.query.filter(tech_id=104).first()
+    print('ID TESTING: ', id.first_name) 
 
 
 @app.route('/jobs')

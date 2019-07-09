@@ -52,7 +52,7 @@ class Tech extends React.Component{
         })
         .then(data => this.setState({techs:data}))
         .catch(function(error) {console.log("Request failed", error);})
-}
+    }
 
     removeTech = (tech) => {
         let confirmString = 'Are you sure you want to remove ' 
@@ -70,16 +70,20 @@ class Tech extends React.Component{
                     {throw new Error("Post Failed")}
                 })
             .then(data => this.setState({techs:data}))
+            this.setState({editDisplay: false})
+        } else {
+            this.setState({editDisplay: this.state.editDisplay})
         }
-        this.setState(prevState=>({editDisplay: !prevState.editDisplay}))
+
     }
 
 
-    editTech = (tech) => {
-        console.log('edittech', this.state.editDisplay)
-        this.setState(prevState=>({
-            editDisplay: !prevState.editDisplay,
-            selectedTech: tech}))
+    editTech = (tech, bool) => {
+        console.log('TECH FROM PARENT', tech)
+
+        this.setState({
+            editDisplay: bool,
+            selectedTech: tech})
     }
 
 
@@ -107,7 +111,7 @@ class Tech extends React.Component{
                     <td>{tech.last_name}</td> 
                     <td>{tech.position}</td>
                     <td>{tech.apprentice_year}</td>
-                    <td><button onClick={()=>this.editTech(tech)}>Edit Technician</button></td>
+                    <td><button onClick={()=>this.editTech(tech, true)}>Edit Technician</button></td>
                     <td><button onClick={()=>this.removeTech(tech)}>Remove Technician</button></td>
                 </tr>
             )
@@ -173,7 +177,10 @@ class Tech extends React.Component{
                 </table>
             </div>
             <div id='editTech'>
-                {this.state.editDisplay ? <EditTech passSelectedTech={this.state.selectedTech}/> : null}
+                {this.state.editDisplay ? <EditTech 
+                                            passSelectedTech={this.state.selectedTech}
+                                            passEditFunc={this.editTech}/> 
+                                            : null}
             </div>
         </div>
         )
