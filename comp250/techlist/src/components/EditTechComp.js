@@ -5,6 +5,7 @@ class EditTech extends React.Component {
         super(props)
         const tech = this.props.passSelectedTech
         this.state = {
+            id: tech.tech_id,
             firstName: tech.first_name,
             lastName: tech.last_name,
             position: tech.position,
@@ -14,9 +15,6 @@ class EditTech extends React.Component {
 
 
     handleChange=(e)=>{
-        console.log('E.TARGET.NAME: ', e.target.name)
-        console.log('E.TARGET.VALUE: ', e.target.value)
-        console.log('APPRENTICE YEAR', this.state.apprentice_year)
         this.setState({[e.target.name]: e.target.value})
     }
 
@@ -32,31 +30,35 @@ class EditTech extends React.Component {
     }
 
 
-    doneEdit = (event, tech, bool) => {
+    doneEdit = (event) => {
         event.preventDefault()
-        console.log('firstname', this.props.passSelectedTech.first_name)
-        const techFirstName = this.state.firstName
-        const techLastName = this.state.lastName
-        const techPosition = this.state.position
-        const techYear = this.state.apprentice_year
-        console.log(techFirstName, techLastName, techPosition, techYear)
+        let tech = {'tech_id': this.state.id,
+                'first_name': this.state.firstName,
+                'last_name': this.state.lastName,
+                'position': this.state.position,
+                'apprentice_year': parseInt(this.state.apprentice_year)
+                }
         const urlEditTech = 'http://127.0.0.1:5000/edit_tech'
-        // fetch(urlEditTech, {
-        //     method: 'PATCH',
-        //     headers: {
-        //         'Content-type': 'application/json'
-        //     },
-        //     body: JSON.stringify()
-        //     }
-        // })
-        // this.props.passEditFunc(tech, false)
+        fetch(urlEditTech, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(tech)
+            })
+        .then(function(response) {
+            if(response.ok){return response.json()}
+                {throw new Error("Post Failed")}
+            })
+            // .then(data => this.setState({passTechs: data}))
+            // .catch(function(error) {console.log("Request failed", error);})
+            this.props.passEditFunc(tech, false)
+            this.setState({passSelectedTech: tech})
     }
 
 
     render() {
-        console.log('state firstName', this.state.firstName)
         let tech = this.props.passSelectedTech
-        console.log('tech variable', tech)
         return (
             <div>
                 <h1>{tech.first_name}</h1>

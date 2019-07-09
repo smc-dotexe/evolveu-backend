@@ -10,7 +10,7 @@ class Tech extends React.Component{
             position:'',
             apprenticeYear: 0,
             editDisplay: false,
-            selectedTech:''
+            selectedTech:'',
         }
     }
     
@@ -27,6 +27,37 @@ class Tech extends React.Component{
         .then(techsData => {
             this.setState({ techs: techsData, isLoading: false })
         })
+    }
+
+
+    componentDidUpdate(prevProps, prevState){
+        console.log('PREVSTATE SELECTED TECH', prevState.selectedTech)        
+        console.log('STATE SELECTED TECHS', this.state.selectedTech)
+        console.log('-------------------------------------------------')
+        if (this.state.selectedTech !== prevState.selectedTech){
+            const urlTech = 'http://127.0.0.1:5000/tech'
+            fetch(urlTech)
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                } else {
+                    throw Error('Error fetching posts!')
+                }
+            })
+            .then(techsData => {
+                console.log('TECHS DATA', techsData)
+                this.setState({ techs: techsData, isLoading: false })
+                console.log('techsData ran')
+                console.log('---------------------')
+            })
+            this.setState({selectedTech: this.state.selectedTech})
+            this.setState({techs: this.state.techs})
+            console.log('SETSTATE TECHS INSIDE', this.state.techs)
+            console.log('SETSTATE HAS RAN')
+            console.log('---------------------------------------------')
+        } else {
+            console.log('NO CHANGE')
+        }
     }
 
 
@@ -78,9 +109,13 @@ class Tech extends React.Component{
     }
 
 
-    editTech = (tech, bool) => {
-        console.log('TECH FROM PARENT', tech)
+    force = () => {
+        console.log('FORCE() HAS RUN')
+        this.forceUpdate()
+    }
 
+
+    editTech = (tech, bool) => {
         this.setState({
             editDisplay: bool,
             selectedTech: tech})
@@ -101,7 +136,9 @@ class Tech extends React.Component{
         }
     }
 
+
     render(){
+        console.log('TECHS STATE', this.state.techs)
         let techRows
         if (this.state.techs.length > 0) {
             techRows = this.state.techs.map((tech, key) =>
@@ -118,7 +155,7 @@ class Tech extends React.Component{
         }
         return(
         <div>
-            <div id='techTableDiv'>
+            <div id='techTableDiv'  style={this.state.editDisplay ? {pointerEvents: 'none', opacity: '0.4'}: {}}>
                 <label>Add Tech</label>
                 <form method='post' onSubmit={this.submitTech}>
                     <input
@@ -179,7 +216,10 @@ class Tech extends React.Component{
             <div id='editTech'>
                 {this.state.editDisplay ? <EditTech 
                                             passSelectedTech={this.state.selectedTech}
-                                            passEditFunc={this.editTech}/> 
+                                            passEditFunc={this.editTech}
+                                            passForce={this.force}
+                                            passTechs={this.state.techs}
+                                            passMount={this.componentDidMount}/> 
                                             : null}
             </div>
         </div>

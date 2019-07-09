@@ -111,10 +111,20 @@ def remove_tech():
     return redirect(url_for('tech_list'))
 
 
-@app.route('/edit_tech/<int:id>', methods=['PATCH'])
+@app.route('/edit_tech', methods=['POST'])
 def edit_tech():
-    id = Tech.query.filter(tech_id=104).first()
-    print('ID TESTING: ', id.first_name) 
+    if request.method == 'POST':
+        json_data = request.get_json(force=True)
+        print('JSON_DATA', json_data)
+        techEdit = Tech.query.filter_by(tech_id=json_data['tech_id']).first()
+        print('TECHEDIT', techEdit.first_name, techEdit.apprentice_year)
+        print('JSON_DATA first', json_data['first_name'])
+        techEdit.first_name = json_data['first_name']
+        techEdit.last_name = json_data['last_name']
+        techEdit.position = json_data['position']
+        techEdit.apprentice_year = json_data['apprentice_year']
+        db.session.commit()
+    return redirect(url_for('tech_list'))
 
 
 @app.route('/jobs')
