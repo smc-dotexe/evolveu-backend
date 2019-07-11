@@ -15,6 +15,7 @@ class EditTech extends React.Component {
 
 
     handleChange=(e)=>{
+        console.log('e.target.name', e.target.name, 'e.target.value', e.target.value)
         this.setState({[e.target.name]: e.target.value})
     }
 
@@ -42,7 +43,8 @@ class EditTech extends React.Component {
         fetch(urlEditTech, {
             method: 'POST',
             headers: {
-                'Content-type': 'application/json'
+                'Content-type': 'application/json',
+                'Accept': 'application/json'
             },
             body: JSON.stringify(tech)
             })
@@ -53,7 +55,6 @@ class EditTech extends React.Component {
             // .then(data => this.setState({passTechs: data}))
             // .catch(function(error) {console.log("Request failed", error);})
             this.props.passEditFunc(tech, false)
-            this.setState({passSelectedTech: tech})
     }
 
 

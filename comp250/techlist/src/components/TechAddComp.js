@@ -11,6 +11,7 @@ class Tech extends React.Component{
             apprenticeYear: 0,
             editDisplay: false,
             selectedTech:'',
+            newTechs: []
         }
     }
     
@@ -31,10 +32,11 @@ class Tech extends React.Component{
 
 
     componentDidUpdate(prevProps, prevState){
-        console.log('PREVSTATE SELECTED TECH', prevState.selectedTech)        
-        console.log('STATE SELECTED TECHS', this.state.selectedTech)
-        console.log('-------------------------------------------------')
+        // console.log('PREVSTATE TECH', prevState.selectedTech)        
+        // console.log('STATTECHS', this.state.selectedTech)
+        // console.log('-------------------------------------------------')
         if (this.state.selectedTech !== prevState.selectedTech){
+            // console.log('FROM IF STATEMENT')
             const urlTech = 'http://127.0.0.1:5000/tech'
             fetch(urlTech)
             .then(res => {
@@ -45,20 +47,16 @@ class Tech extends React.Component{
                 }
             })
             .then(techsData => {
-                console.log('TECHS DATA', techsData)
                 this.setState({ techs: techsData, isLoading: false })
-                console.log('techsData ran')
-                console.log('---------------------')
+                console.log('.THEN TECHSDATA RAN')
             })
-            this.setState({selectedTech: this.state.selectedTech})
-            this.setState({techs: this.state.techs})
-            console.log('SETSTATE TECHS INSIDE', this.state.techs)
-            console.log('SETSTATE HAS RAN')
-            console.log('---------------------------------------------')
+
         } else {
-            console.log('NO CHANGE')
+            // console.log('FROM ELSE')
+
         }
     }
+
 
 
     submitTech = (e) => {
@@ -116,9 +114,13 @@ class Tech extends React.Component{
 
 
     editTech = (tech, bool) => {
+        console.log('FROM EDIT STATE TECHS', this.state.techs)
+        console.log('FROM EDIT STATE SELECTEDTECHS', this.state.selectedTech)
         this.setState({
             editDisplay: bool,
-            selectedTech: tech})
+            selectedTech: tech,
+            techs: this.state.techs,
+        })
     }
 
 
@@ -221,6 +223,9 @@ class Tech extends React.Component{
                                             passTechs={this.state.techs}
                                             passMount={this.componentDidMount}/> 
                                             : null}
+            </div>
+            <div>
+                <h1>TECH SELECTED VALUE: {this.state.selectedTech.first_name}, Apprentice Year: {this.state.selectedTech.apprentice_year}</h1>
             </div>
         </div>
         )

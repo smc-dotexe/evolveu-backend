@@ -115,16 +115,15 @@ def remove_tech():
 def edit_tech():
     if request.method == 'POST':
         json_data = request.get_json(force=True)
-        print('JSON_DATA', json_data)
         techEdit = Tech.query.filter_by(tech_id=json_data['tech_id']).first()
-        print('TECHEDIT', techEdit.first_name, techEdit.apprentice_year)
-        print('JSON_DATA first', json_data['first_name'])
+        if techEdit is None:
+            return f'tech not found - double-check tech_id ({json_data["tech_id"]})', 404
         techEdit.first_name = json_data['first_name']
         techEdit.last_name = json_data['last_name']
         techEdit.position = json_data['position']
         techEdit.apprentice_year = json_data['apprentice_year']
         db.session.commit()
-    return redirect(url_for('tech_list'))
+    return f'tech ({techEdit.first_name} {techEdit.last_name}) edited successfully', 200
 
 
 @app.route('/jobs')
