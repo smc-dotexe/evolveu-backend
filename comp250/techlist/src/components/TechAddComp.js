@@ -194,12 +194,14 @@ class Tech extends React.Component{
                     </table>
                 </div>
                 <div id='editTech'>
-                    {this.state.editDisplay ? <EditTech 
-                                                passSelectedTech={this.state.selectedTech}
-                                                passEditFunc={this.editTech}
-                                                passTechs={this.state.techs}
-                                                /> 
-                                                : null}
+                    {
+                    this.state.editDisplay ? 
+                        <EditTech 
+                            passSelectedTech={this.state.selectedTech}
+                            passEditFunc={this.editTech}
+                            passTechs={this.state.techs}
+                            /> : null
+                    }
                 </div>
             </div>
         )

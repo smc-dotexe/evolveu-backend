@@ -19,17 +19,6 @@ class EditTech extends React.Component {
     }
 
 
-    // componentDidUpdate(prevProps) {
-    // const newTechProps = this.props.passSelectedTech
-    // if (this.props.passSelectedTech !== prevProps.passSelectedTech) {
-    //     this.setState({firstName: newTechProps.first_name,
-    //                    lastName: newTechProps.last_name,
-    //                    position: newTechProps.position,
-    //                    apprentice_year: newTechProps.apprentice_year});
-    //     }
-    // }
-
-
     doneEdit = (event) => {
         event.preventDefault()
         //create object with inputs to jsonify
