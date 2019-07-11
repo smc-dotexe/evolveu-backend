@@ -26,37 +26,10 @@ class Tech extends React.Component{
             }
         })
         .then(techsData => {
-            this.setState({ techs: techsData, isLoading: false })
+            this.setState({techs: techsData, isLoading: false,
+                            newTechs: techsData})
         })
     }
-
-
-    componentDidUpdate(prevProps, prevState){
-        // console.log('PREVSTATE TECH', prevState.selectedTech)        
-        // console.log('STATTECHS', this.state.selectedTech)
-        // console.log('-------------------------------------------------')
-        if (this.state.selectedTech !== prevState.selectedTech){
-            // console.log('FROM IF STATEMENT')
-            const urlTech = 'http://127.0.0.1:5000/tech'
-            fetch(urlTech)
-            .then(res => {
-                if (res.ok) {
-                    return res.json()
-                } else {
-                    throw Error('Error fetching posts!')
-                }
-            })
-            .then(techsData => {
-                this.setState({ techs: techsData, isLoading: false })
-                console.log('.THEN TECHSDATA RAN')
-            })
-
-        } else {
-            // console.log('FROM ELSE')
-
-        }
-    }
-
 
 
     submitTech = (e) => {
@@ -83,6 +56,7 @@ class Tech extends React.Component{
         .catch(function(error) {console.log("Request failed", error);})
     }
 
+
     removeTech = (tech) => {
         let confirmString = 'Are you sure you want to remove ' 
                             + tech.first_name + ' ' + tech.last_name 
@@ -107,19 +81,19 @@ class Tech extends React.Component{
     }
 
 
-    force = () => {
-        console.log('FORCE() HAS RUN')
-        this.forceUpdate()
-    }
-
-
     editTech = (tech, bool) => {
-        console.log('FROM EDIT STATE TECHS', this.state.techs)
-        console.log('FROM EDIT STATE SELECTEDTECHS', this.state.selectedTech)
+        let i, index, newTechs
+        for (i of this.state.techs){
+            if (i.tech_id == tech.tech_id) {
+                index = this.state.techs.indexOf(i)
+            }
+        }
+        newTechs = this.state.techs.slice()
+        newTechs[index] = tech
         this.setState({
             editDisplay: bool,
             selectedTech: tech,
-            techs: this.state.techs,
+            techs: newTechs,
         })
     }
 
@@ -140,7 +114,6 @@ class Tech extends React.Component{
 
 
     render(){
-        console.log('TECHS STATE', this.state.techs)
         let techRows
         if (this.state.techs.length > 0) {
             techRows = this.state.techs.map((tech, key) =>

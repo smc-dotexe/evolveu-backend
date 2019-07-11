@@ -15,7 +15,6 @@ class EditTech extends React.Component {
 
 
     handleChange=(e)=>{
-        console.log('e.target.name', e.target.name, 'e.target.value', e.target.value)
         this.setState({[e.target.name]: e.target.value})
     }
 
