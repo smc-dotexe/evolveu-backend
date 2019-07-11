@@ -13,33 +13,34 @@ class EditTech extends React.Component {
         }
     }
 
-
+//setting inputs to state to later jsonify
     handleChange=(e)=>{
         this.setState({[e.target.name]: e.target.value})
     }
 
 
-    componentDidUpdate(prevProps) {
-    const newTechProps = this.props.passSelectedTech
-    if (this.props.passSelectedTech !== prevProps.passSelectedTech) {
-        this.setState({firstName: newTechProps.first_name,
-                       lastName: newTechProps.last_name,
-                       position: newTechProps.position,
-                       apprentice_year: newTechProps.apprentice_year});
-        }
-    }
+    // componentDidUpdate(prevProps) {
+    // const newTechProps = this.props.passSelectedTech
+    // if (this.props.passSelectedTech !== prevProps.passSelectedTech) {
+    //     this.setState({firstName: newTechProps.first_name,
+    //                    lastName: newTechProps.last_name,
+    //                    position: newTechProps.position,
+    //                    apprentice_year: newTechProps.apprentice_year});
+    //     }
+    // }
 
 
     doneEdit = (event) => {
         event.preventDefault()
-        let tech = {'tech_id': this.state.id,
+        //create object with inputs to jsonify
+        let tech = {
+                'tech_id': this.state.id,
                 'first_name': this.state.firstName,
                 'last_name': this.state.lastName,
                 'position': this.state.position,
                 'apprentice_year': parseInt(this.state.apprentice_year)
                 }
-        const urlEditTech = 'http://127.0.0.1:5000/edit_tech'
-        fetch(urlEditTech, {
+        fetch('http://127.0.0.1:5000/edit_tech', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -51,8 +52,6 @@ class EditTech extends React.Component {
             if(response.ok){return response.json()}
                 {throw new Error("Post Failed")}
             })
-            // .then(data => this.setState({passTechs: data}))
-            // .catch(function(error) {console.log("Request failed", error);})
             this.props.passEditFunc(tech, false)
     }
 

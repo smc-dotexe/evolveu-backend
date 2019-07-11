@@ -11,7 +11,6 @@ class Tech extends React.Component{
             apprenticeYear: 0,
             editDisplay: false,
             selectedTech:'',
-            newTechs: []
         }
     }
     
@@ -37,8 +36,7 @@ class Tech extends React.Component{
         let lastName = document.getElementById('last_name').value
 
         e.preventDefault()
-        const urlAddTech = 'http://127.0.0.1:5000/add_tech'
-        fetch(urlAddTech, {
+        fetch('http://127.0.0.1:5000/add_tech', {
             method: 'POST',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify({
@@ -46,12 +44,15 @@ class Tech extends React.Component{
                 'last_name': lastName,
                 'position': this.state.position,
                 'apprentice_year': this.state.apprenticeYear,
+                })
             })
-        })
         .then(function(response) {
-          if(response.ok){return response.json()}
-            {throw new Error("Post Failed")}
-        })
+            if(response.ok){
+                return response.json()
+                } else {
+                throw new Error("Post Failed")
+                }
+            })
         .then(data => this.setState({techs:data}))
         .catch(function(error) {console.log("Request failed", error);})
     }
@@ -62,29 +63,30 @@ class Tech extends React.Component{
                             + tech.first_name + ' ' + tech.last_name 
                             + ' from the system?'
         if (window.confirm(confirmString)) {
-            const urlRemoveTech = 'http://127.0.0.1:5000/remove_tech'
-            fetch(urlRemoveTech, {
+            fetch('http://127.0.0.1:5000/remove_tech', {
                 method:'POST',
                 headers: {'Content-Type':'application/json'},
                 body: JSON.stringify({'tech_id': tech.tech_id})               
             })
             .then(function(response) {
-                if(response.ok){return response.json()}
-                    {throw new Error("Post Failed")}
-                })
+                if(response.ok){
+                    return response.json()
+                } else {
+                    throw new Error("Post Failed")
+                }
+            })
             .then(data => this.setState({techs:data}))
             this.setState({editDisplay: false})
-        } else {
-            this.setState({editDisplay: this.state.editDisplay})
-        }
-
+        } 
     }
 
-
+//clicked to display edit window, 
+//clicked done: executed from EditTechComp to match the selected Tech
+//and modify it in the state.techs list.
     editTech = (tech, bool) => {
         let i, index, newTechs
         for (i of this.state.techs){
-            if (i.tech_id == tech.tech_id) {
+            if (i.tech_id === tech.tech_id) {
                 index = this.state.techs.indexOf(i)
             }
         }
@@ -107,6 +109,7 @@ class Tech extends React.Component{
                 break
             case 'apprentice_year':
                 this.setState({apprenticeYear: y})
+                break
             default:
                 return null
         }
@@ -115,6 +118,7 @@ class Tech extends React.Component{
 
     render(){
         let techRows
+    //map the tech list to display as table elements.
         if (this.state.techs.length > 0) {
             techRows = this.state.techs.map((tech, key) =>
                 <tr key={key}>
@@ -128,79 +132,76 @@ class Tech extends React.Component{
                 </tr>
             )
         }
-        return(
-        <div>
-            <div id='techTableDiv'  style={this.state.editDisplay ? {pointerEvents: 'none', opacity: '0.4'}: {}}>
-                <label>Add Tech</label>
-                <form method='post' onSubmit={this.submitTech}>
-                    <input
-                        id='first_name'
-                        type='text'
-                        name='first_name' 
-                        placeholder='First Name'>
-                    </input><br />
-                    <input
-                        id='last_name'
-                        type='text'
-                        name='last_name'
-                        placeholder='Last Name'
-                        onChange={this.handleChange}>
-                    </input><br />
-                    <input
-                        id='apprenticeRadio'
-                        type='radio'
-                        name='position'
-                        value='Apprentice'
-                        onChange={this.handleChange}>
-                    </input>
-                        Apprentice
-                    <input
-                        id='journeymanRadio'
-                        type='radio'
-                        name='position'
-                        value='Journeyman'
-                        onChange={this.handleChange}>
-                    </input>
-                        Journeyman<br />
-                    <label>Apprentice Year: </label>
-                    <select
-                        id='apprentice_year'
-                        name='apprentice_year'
-                        onChange={this.handleChange}>
-                        <option value='0'>0</option>
-                        <option value='1'>1</option>
-                        <option value='2'>2</option>
-                        <option value='3'>3</option>
-                        <option value='4'>4</option>
-                    </select><br />
-                    <input type='submit' value='Submit'></input> 
-                </form>
-                <table id='techTable'>
-                    <tbody>
-                        <tr>
-                            <td><h4>Tech ID</h4></td>
-                            <td><h4>First Name</h4></td>
-                            <td><h4>Last Name</h4></td>
-                            <td><h4>Position</h4></td>
-                            <td><h4>Apprentice Year</h4></td>
-                        </tr>
-                        {techRows}
-                    </tbody>
-                </table>
-            </div>
-            <div id='editTech'>
-                {this.state.editDisplay ? <EditTech 
-                                            passSelectedTech={this.state.selectedTech}
-                                            passEditFunc={this.editTech}
-                                            passForce={this.force}
-                                            passTechs={this.state.techs}
-                                            passMount={this.componentDidMount}/> 
-                                            : null}
-            </div>
+        return( 
             <div>
-                <h1>TECH SELECTED VALUE: {this.state.selectedTech.first_name}, Apprentice Year: {this.state.selectedTech.apprentice_year}</h1>
+                <div id='techTableDiv'  style={this.state.editDisplay ? 
+                                              {pointerEvents: 'none', opacity: '0.4'}: 
+                                              {}}>
+                    <label>Add Tech</label>
+                    <form method='post' onSubmit={this.submitTech}>
+                        <input
+                            id='first_name'
+                            type='text'
+                            name='first_name' 
+                            placeholder='First Name'>
+                        </input><br />
+                        <input
+                            id='last_name'
+                            type='text'
+                            name='last_name'
+                            placeholder='Last Name'>
+                        </input><br />
+                        <input
+                            id='apprenticeRadio'
+                            type='radio'
+                            name='position'
+                            value='Apprentice'
+                            onChange={this.handleChange}>
+                        </input>
+                            Apprentice
+                        <input
+                            id='journeymanRadio'
+                            type='radio'
+                            name='position'
+                            value='Journeyman'
+                            onChange={this.handleChange}>
+                        </input>
+                            Journeyman<br />
+                        <label>Apprentice Year: </label>
+                        <select
+                            id='apprentice_year'
+                            name='apprentice_year'
+                            onChange={this.handleChange}>
+                            <option value='0'>0</option>
+                            <option value='1'>1</option>
+                            <option value='2'>2</option>
+                            <option value='3'>3</option>
+                            <option value='4'>4</option>
+                        </select><br />
+                        <input type='submit' value='Submit'></input> 
+                    </form>
+                    <table id='techTable'>
+                        <tbody>
+                            <tr>
+                                <td><h4>Tech ID</h4></td>
+                                <td><h4>First Name</h4></td>
+                                <td><h4>Last Name</h4></td>
+                                <td><h4>Position</h4></td>
+                                <td><h4>Apprentice Year</h4></td>
+                            </tr>
+                            {techRows}
+                        </tbody>
+                    </table>
+                </div>
+                <div id='editTech'>
+                    {this.state.editDisplay ? <EditTech 
+                                                passSelectedTech={this.state.selectedTech}
+                                                passEditFunc={this.editTech}
+                                                passTechs={this.state.techs}
+                                                /> 
+                                                : null}
+                </div>
             </div>
-        </div>
         )
     }
 }
