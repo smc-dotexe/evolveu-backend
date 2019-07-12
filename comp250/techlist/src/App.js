@@ -4,6 +4,7 @@ import './App.css';
 import TechComp from './components/TechComp'
 import Jobs from './components/Jobs'
 import Parts from './components/Parts'
+import { NavLink, Switch, Route, Link, BrowserRouter as Router } from 'react-router-dom'
 
 class App extends React.Component {
   constructor() {
@@ -22,12 +23,19 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        <p id='displayTech' onClick={this.displayHandler}>Technicians</p>
-            {this.state.displayTech ? <TechComp /> : null}
-          <Jobs />
-          <Parts />
-      </div>
+      <Router>
+        <div className="App">
+          <NavLink
+            to='/techs'>
+              Technicians
+          </NavLink>
+            <Jobs />
+            <Parts />
+            <Switch>
+              <Route exact path='/techs' component={TechComp} />
+            </Switch>
+        </div>
+      </Router>
     );
   }
 }
