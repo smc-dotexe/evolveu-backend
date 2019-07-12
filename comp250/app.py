@@ -40,11 +40,11 @@ class Tech(db.Model):
 class Jobs(db.Model):
     __tablename__ = 'jobs'
     job_id = db.Column(db.Integer, primary_key=True)
+    ro_number = db.Column(db.Integer, unique=True)
     company = db.Column(db.Text)
     description = db.Column(db.Text)
     tech_id = db.Column(db.Integer, db.ForeignKey('tech.tech_id'))
     est_completion = db.Column(db.Float)
-    actual_completion = db.Column(db.Float)
 
     def __init__(self, company, description, tech_id, est_completion, actual_completion):
         self.company = company
