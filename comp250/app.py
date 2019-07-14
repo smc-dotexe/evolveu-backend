@@ -24,6 +24,7 @@ class Tech(db.Model):
     last_name = db.Column(db.Text)
     position = db.Column(db.Text)
     apprentice_year = db.Column(db.Integer)
+    jobs = db.relationship('Jobs', backref='tech')
 
     def __init__(self, first_name, last_name, position, apprentice_year):
         self.first_name = first_name
@@ -56,8 +57,7 @@ class Jobs(db.Model):
     def serialize(self):
         return {'job_id': self.job_id, 'company': self.company, 
                 'description': self.description, 'tech_id': self.tech_id, 
-                'est_completion': self.est_completion, 
-                'actual_completion': self.actual_completion}
+                'est_completion': self.est_completion}
 
 
 class Parts(db.Model):
@@ -77,6 +77,9 @@ class Parts(db.Model):
                 'cost': self.cost}
 
 
+#################################
+########## TECH SECTION ##########
+#################################
 @app.route('/tech')
 def tech_list():
     techs = Tech.query.all()
@@ -128,12 +131,35 @@ def edit_tech():
     return jsonify(f'tech ({techEdit.first_name} {techEdit.last_name}) edited successfully'), 200
 
 
+#################################
+########## JOBS SECTION ##########
+#################################
 @app.route('/jobs')
 def jobs_list():
     jobs = Jobs.query.all()
     job_list = [job.serialize() for job in jobs]
     return jsonify(job_list)
 
+
+@app.route('/add_job', methods=['GET', 'POST'])
+def add_job():
+    if request.method == 'POST':
+        json_data = request.get_json(force=True)
+        add_data = Jobs(ro_number=json_data.get('ro_number'),
+                        company=json_data.get('company'),
+                        description=json_data.get('description'),
+                        est_completion=json_data.get('est_completion'),
+                        tech_id=json_data.get('tech_id'))
+        db.session.add(add_data)
+        db.session.commit()
+    else:
+        print('FROM ELSE')
+    return redirect(url_for('jobs_list'))
+
+
+#################################
+########## PARTS SECTION ##########
+#################################
 @app.route('/parts')
 def parts_list():
     parts = Parts.query.all()

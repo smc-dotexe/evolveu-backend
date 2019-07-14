@@ -40,6 +40,7 @@ class Jobs extends React.Component {
                 <td>{job.est_completion}</td>
             </tr>
         )
+        console.log('testing from jobs', this.state.jobs.tech)
         return (
             <div>
                 <div id='addJobDiv'>
