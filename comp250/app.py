@@ -148,8 +148,8 @@ def add_job():
         add_data = Jobs(ro_number=json_data.get('ro_number'),
                         company=json_data.get('company'),
                         description=json_data.get('description'),
-                        est_completion=json_data.get('est_completion'),
-                        tech_id=json_data.get('tech_id'))
+                        tech_id=json_data.get('tech_id'),
+                        est_completion=json_data.get('est_completion'))
         db.session.add(add_data)
         db.session.commit()
     else:

@@ -2,8 +2,8 @@ import React from 'react'
 import EditTech from './EditTechComp'
 
 class Tech extends React.Component{
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state = {
             isLoading: false,
             techs: [],
@@ -25,8 +25,7 @@ class Tech extends React.Component{
             }
         })
         .then(techsData => {
-            this.setState({techs: techsData, isLoading: false,
-                            newTechs: techsData})
+            this.setState({techs: techsData, isLoading: false})
         })
     }
 
@@ -117,6 +116,7 @@ class Tech extends React.Component{
 
 
     render(){
+        console.log('passed down to here', this.props.passTechs)
         let techRows
     //map the tech list to display as table elements.
         if (this.state.techs.length > 0) {

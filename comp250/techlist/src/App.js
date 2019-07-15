@@ -11,16 +11,11 @@ class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      displayTech: false
+      displayTech: false,
+      test: 'testing'
     }
   }
 
-
-  // displayHandler = (e) => {
-  //   this.setState(prevState=> ({
-  //     displayTech: !prevState.displayTech
-  //   }))
-  // }
 
   render() {
     return (
@@ -35,8 +30,10 @@ class App extends React.Component {
             to='/jobs'>
               Jobs
           </NavLink>
-          <NavLink
-            to='/techs'>
+          <NavLink to={{
+            pathname:'/techs',
+            state: {test2: 'test2'}
+          }}>
               Technicians
           </NavLink>
             <Switch>
