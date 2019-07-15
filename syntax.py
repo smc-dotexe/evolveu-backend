@@ -1,53 +1,9 @@
-# # define attributes / variables
-# # number
-# x = 1
-# # string
-# y = 'string'
-# # boolean
-# z = True
-# a = False
-# # list
-# mylist = [1,2,3]
-# # dictionary / objects
-# my_dictionary = {'a':1, 'b':2, 'c':3}
-
-
-# # sample if / else
-# def sampleifelse():
-#     if 1<2:
-#         return 'one is less than two'
-#     else:
-#         return 'wrong'
-
 # functions
 def sample():
     return 'hello'
 # parameters
 def sample2(name):
     return f'hello {name}'
-
-# # list
-# xlist = ['a','b','c']
-# # add to the front
-# xlist.insert(0,'z')
-# # add to the end
-# xlist.append('v') #zabcv
-# # update values
-# xlist[1] = 'i'
-# print(xlist)
-
-# # loops
-# alist = [1,2,3]
-# # for
-# for i in alist:
-#     print(i)
-# # for/in
-# # while
-# b = 0
-# while b < 5:
-#     b = b+1
-#     print(b)
-
 
 
 # Objects / Dictionaries
