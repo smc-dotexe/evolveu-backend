@@ -85,4 +85,17 @@ let determineTotal = function() {/*write function here*/
 
 };
 
-determineTotal();
+
+//make an array of the first names using map
+	let mapping
+	mapping = people.map(a => {
+		return a.fname
+	})
+
+//use forEach to make a new array adding an '!' to the names
+	let forEachArr = []
+	mapping.forEach(function(x){
+		y = x + '!'
+		forEachArr.push(y)
+	})
+	console.log('forEachArr', forEachArr)
