@@ -47,17 +47,17 @@ class Jobs(db.Model):
     tech_id = db.Column(db.Integer, db.ForeignKey('tech.tech_id'))
     est_completion = db.Column(db.Float)
 
-    def __init__(self, company, description, tech_id, est_completion, actual_completion):
+    def __init__(self, company, description, tech_id, est_completion):
         self.company = company
         self.description = description
         self.tech_id = tech_id
-        self.est_completion = est_completion
-        self.actual_completion = actual_completion
+        self.est_completion = est_completionn
     
     def serialize(self):
         return {'job_id': self.job_id, 'company': self.company, 
                 'description': self.description, 'tech_id': self.tech_id, 
-                'est_completion': self.est_completion}
+                'est_completion': self.est_completion,
+                'ro_number': self.ro_number}
 
 
 class Parts(db.Model):

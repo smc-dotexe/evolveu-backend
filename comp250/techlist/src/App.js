@@ -26,7 +26,7 @@ componentDidMount() {
     fetch("http://127.0.0.1:5000/parts")
   ])
   .then(([res1, res2, res3]) => Promise.all([res1.json(), res2.json(), res3.json()]))
-  .then(([techsData, jobsData, partsData]) => { console.log('techsdata', techsData) 
+  .then(([techsData, jobsData, partsData]) => { console.log('jobsData ', jobsData) 
   this.setState({
     techs: techsData,
     jobs: jobsData,
@@ -35,14 +35,12 @@ componentDidMount() {
 }
 
 
-
 updateState = (e) => {
-  console.log('updateState ran', e)
   this.setState({techs: e})
-  console.log('state techs: ', this.state.techs)
 }
 
   render() {
+    console.log('job state', this.state.jobs)
     return (
       <Router>
         <div className="App">
@@ -56,20 +54,24 @@ updateState = (e) => {
               Jobs
           </NavLink>
           <NavLink to={{
-            pathname:'/techs',
-            state: {techs: this.state.techs}
+            pathname:'/techs'
           }}>
               Technicians
           </NavLink>
             <Switch>
               <Route exact path='/' component={Home} />
               <Route path='/techs'
-                render={(routeProps) => (
-                  <TechComp {...routeProps} 
+                render={() => (
+                  <TechComp 
                     passUpdateState={this.updateState}
                     passTechs={this.state.techs}/>
                 )}/>
-              <Route path='/jobs' component={Jobs} />
+              <Route path='/jobs' 
+                render={() => (
+                  <Jobs
+                    passJobs={this.state.jobs}
+                    passTechs={this.state.techs}/>
+                )}/>
             </Switch>
         </div>
       </Router>

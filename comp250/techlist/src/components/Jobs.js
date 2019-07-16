@@ -10,27 +10,29 @@ class Jobs extends React.Component {
         }
     }
 
-    componentDidMount() {
-        const urlJobs = 'http://127.0.0.1:5000/jobs'
-        fetch(urlJobs)
-        .then(res => {
-            if (res.ok) {
-                return res.json()
-            } else {
-                throw Error('Error fetching posts!')
-            }
-        })
-        .then(jobsData => {
-            console.log('jobsData',jobsData)
-            this.setState({ jobs: jobsData, isLoading: false })
-        })
+    // componentDidMount() {
+    //     const urlJobs = 'http://127.0.0.1:5000/jobs'
+    //     fetch(urlJobs)
+    //     .then(res => {
+    //         if (res.ok) {
+    //             return res.json()
+    //         } else {
+    //             throw Error('Error fetching posts!')
+    //         }
+    //     })
+    //     .then(jobsData => {
+    //         console.log('jobsData',jobsData)
+    //         this.setState({ jobs: jobsData, isLoading: false })
+    //     })
+    // }
+
+    selectTechs = () => {
+
     }
-
-
 
     render() {
         let jobRows
-        jobRows = this.state.jobs.map((job, key) =>
+        jobRows = this.props.passJobs.map((job, key) =>
             <tr key={key}>
                 <td>{job.job_id}</td>
                 <td>{job.ro_number}</td>
@@ -40,7 +42,12 @@ class Jobs extends React.Component {
                 <td>{job.est_completion}</td>
             </tr>
         )
-        console.log('testing from jobs', this.state.jobs.tech)
+
+
+        let techRows
+        techRows = this.props.passTechs.map((tech, key) =>
+            <option key={key} value={tech.tech_id}>{tech.tech_id}. {tech.first_name}</option>
+        )
         return (
             <div>
                 <div id='addJobDiv'>
@@ -72,6 +79,7 @@ class Jobs extends React.Component {
                         <br />
                         <select>
                             <option value='select'>Select Tech</option>
+                            {techRows}
                         </select>
                         <br />  
                         <input type='submit' value='Submit'></input>                      

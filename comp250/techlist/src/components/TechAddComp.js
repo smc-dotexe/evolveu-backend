@@ -6,7 +6,6 @@ class Tech extends React.Component{
         super(props)
         this.state = {
             isLoading: false,
-            techs: [],
             position:'',
             apprenticeYear: 0,
             editDisplay: false,
@@ -14,7 +13,7 @@ class Tech extends React.Component{
         }
     }
     
-    
+
     submitTech = (e) => {
         let firstName = document.getElementById('first_name').value
         let lastName = document.getElementById('last_name').value
