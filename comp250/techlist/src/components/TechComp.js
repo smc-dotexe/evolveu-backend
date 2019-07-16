@@ -7,10 +7,12 @@ class TechComp extends React.Component {
         super(props)
     }
     render() {
-        console.log('passing from parent: ', this.props.location.state)
+        console.log('from techcomp ',this.props.passTechs)
         return (
                 <div>
-                    <TechAddComp passTechs={this.props.location.state}/>
+                    <TechAddComp 
+                        passTechs={this.props.passTechs}
+                        passUpdateState={this.props.passUpdateState}/>
                 </div>
         )
     }

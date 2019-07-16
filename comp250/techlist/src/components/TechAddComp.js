@@ -14,20 +14,20 @@ class Tech extends React.Component{
         }
     }
     
-    componentDidMount() {
-        const urlTech = 'http://127.0.0.1:5000/tech'
-        fetch(urlTech)
-        .then(res => {
-            if (res.ok) {
-                return res.json()
-            } else {
-                throw Error('Error fetching posts!')
-            }
-        })
-        .then(techsData => {
-            this.setState({techs: techsData, isLoading: false})
-        })
-    }
+    // componentDidMount() {
+    //     const urlTech = 'http://127.0.0.1:5000/tech'
+    //     fetch(urlTech)
+    //     .then(res => {
+    //         if (res.ok) {
+    //             return res.json()
+    //         } else {
+    //             throw Error('Error fetching posts!')
+    //         }
+    //     })
+    //     .then(techsData => {
+    //         this.setState({techs: techsData, isLoading: false})
+    //     })
+    // }
 
 
     submitTech = (e) => {
@@ -52,8 +52,8 @@ class Tech extends React.Component{
                 throw new Error("Post Failed")
                 }
             })
-        .then(data => this.setState({techs:data}))
-        .catch(function(error) {console.log("Request failed", error);})
+        .then(data => this.props.passUpdateState(data))
+        .catch(function(error) {console.log("Request failed", error)})
     }
 
 
@@ -116,11 +116,11 @@ class Tech extends React.Component{
 
 
     render(){
-        console.log('passed down to here', this.props.passTechs)
+        const passTechs = this.props.passTechs
         let techRows
     //map the tech list to display as table elements.
-        if (this.state.techs.length > 0) {
-            techRows = this.state.techs.map((tech, key) =>
+        if (passTechs.length > 0) {
+            techRows = passTechs.map((tech, key) =>
                 <tr key={key}>
                     <td>{tech.tech_id}</td>
                     <td>{tech.first_name}</td>

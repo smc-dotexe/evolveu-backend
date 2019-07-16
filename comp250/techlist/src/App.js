@@ -26,11 +26,20 @@ componentDidMount() {
     fetch("http://127.0.0.1:5000/parts")
   ])
   .then(([res1, res2, res3]) => Promise.all([res1.json(), res2.json(), res3.json()]))
-  .then(([techsData, jobsData, partsData]) => this.setState({
+  .then(([techsData, jobsData, partsData]) => { console.log('techsdata', techsData) 
+  this.setState({
     techs: techsData,
     jobs: jobsData,
     parts: partsData
-  }))
+  })})
+}
+
+
+
+updateState = (e) => {
+  console.log('updateState ran', e)
+  this.setState({techs: e})
+  console.log('state techs: ', this.state.techs)
 }
 
   render() {
@@ -48,13 +57,18 @@ componentDidMount() {
           </NavLink>
           <NavLink to={{
             pathname:'/techs',
-            state: {test2: 'test2'}
+            state: {techs: this.state.techs}
           }}>
               Technicians
           </NavLink>
             <Switch>
               <Route exact path='/' component={Home} />
-              <Route path='/techs' component={TechComp} />
+              <Route path='/techs'
+                render={(routeProps) => (
+                  <TechComp {...routeProps} 
+                    passUpdateState={this.updateState}
+                    passTechs={this.state.techs}/>
+                )}/>
               <Route path='/jobs' component={Jobs} />
             </Switch>
         </div>
