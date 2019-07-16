@@ -48,6 +48,8 @@ class Jobs extends React.Component {
         techRows = this.props.passTechs.map((tech, key) =>
             <option key={key} value={tech.tech_id}>{tech.tech_id}. {tech.first_name}</option>
         )
+
+        
         return (
             <div>
                 <div id='addJobDiv'>
