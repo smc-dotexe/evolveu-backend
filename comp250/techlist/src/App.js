@@ -12,10 +12,26 @@ class App extends React.Component {
     super()
     this.state = {
       displayTech: false,
-      test: 'testing'
+      techs: [],
+      jobs: [],
+      parts: [],
     }
   }
 
+ 
+componentDidMount() {
+  Promise.all([
+    fetch("http://127.0.0.1:5000/tech"),
+    fetch("http://127.0.0.1:5000/jobs"),
+    fetch("http://127.0.0.1:5000/parts")
+  ])
+  .then(([res1, res2, res3]) => Promise.all([res1.json(), res2.json(), res3.json()]))
+  .then(([techsData, jobsData, partsData]) => this.setState({
+    techs: techsData,
+    jobs: jobsData,
+    parts: partsData
+  }))
+}
 
   render() {
     return (
