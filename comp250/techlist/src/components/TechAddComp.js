@@ -14,22 +14,7 @@ class Tech extends React.Component{
         }
     }
     
-    // componentDidMount() {
-    //     const urlTech = 'http://127.0.0.1:5000/tech'
-    //     fetch(urlTech)
-    //     .then(res => {
-    //         if (res.ok) {
-    //             return res.json()
-    //         } else {
-    //             throw Error('Error fetching posts!')
-    //         }
-    //     })
-    //     .then(techsData => {
-    //         this.setState({techs: techsData, isLoading: false})
-    //     })
-    // }
-
-
+    
     submitTech = (e) => {
         let firstName = document.getElementById('first_name').value
         let lastName = document.getElementById('last_name').value
@@ -74,7 +59,7 @@ class Tech extends React.Component{
                     throw new Error("Post Failed")
                 }
             })
-            .then(data => this.setState({techs:data}))
+            .then(data => this.props.passUpdateState(data))
             this.setState({editDisplay: false})
         } 
     }
@@ -84,18 +69,19 @@ class Tech extends React.Component{
 //and modify it in the state.techs list.
     editTech = (tech, bool) => {
         let i, index, newTechs
-        for (i of this.state.techs){
+        for (i of this.props.passTechs){
             if (i.tech_id === tech.tech_id) {
-                index = this.state.techs.indexOf(i)
+                index = this.props.passTechs.indexOf(i)
             }
         }
-        newTechs = this.state.techs.slice()
+        newTechs = this.props.passTechs.slice()
         newTechs[index] = tech
         this.setState({
             editDisplay: bool,
             selectedTech: tech,
             techs: newTechs,
         })
+        this.props.passUpdateState(newTechs)
     }
 
 
@@ -199,7 +185,7 @@ class Tech extends React.Component{
                         <EditTech 
                             passSelectedTech={this.state.selectedTech}
                             passEditFunc={this.editTech}
-                            passTechs={this.state.techs}
+                            passTechs={this.props.passTechs}
                             /> : null
                     }
                 </div>
