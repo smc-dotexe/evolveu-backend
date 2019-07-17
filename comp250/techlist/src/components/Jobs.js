@@ -11,25 +11,6 @@ class Jobs extends React.Component {
         }
     }
 
-    // componentDidMount() {
-    //     const urlJobs = 'http://127.0.0.1:5000/jobs'
-    //     fetch(urlJobs)
-    //     .then(res => {
-    //         if (res.ok) {
-    //             return res.json()
-    //         } else {
-    //             throw Error('Error fetching posts!')
-    //         }
-    //     })
-    //     .then(jobsData => {
-    //         console.log('jobsData',jobsData)
-    //         this.setState({ jobs: jobsData, isLoading: false })
-    //     })
-    // }
-
-    // handleChange = (e) => {
-        
-    // }
 
     submitJob = (e) => {
         let ro_number, company, description, est_completion, selectTech
@@ -62,6 +43,12 @@ class Jobs extends React.Component {
         .catch(function(error) {console.log("Request failed", error)})       
     }
 
+
+    jobDone = (e) => {
+        console.log('from jobDone ', e)
+        //once completed, move to archive?
+    }
+
     render() {
         let jobRows
         jobRows = this.props.passJobs.map((job, key) =>
@@ -72,6 +59,7 @@ class Jobs extends React.Component {
                 <td>{job.description}</td>
                 <td>{job.tech_id}</td>
                 <td>{job.est_completion}</td>
+                <td><button onClick={()=>this.jobDone(job)}>Completed</button></td>
             </tr>
         )
 

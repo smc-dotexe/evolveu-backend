@@ -20,18 +20,18 @@ class App extends React.Component {
 
  
 componentDidMount() {
-  Promise.all([
-    fetch("http://127.0.0.1:5000/tech"),
-    fetch("http://127.0.0.1:5000/jobs"),
-    fetch("http://127.0.0.1:5000/parts")
-  ])
-  .then(([res1, res2, res3]) => Promise.all([res1.json(), res2.json(), res3.json()]))
-  .then(([techsData, jobsData, partsData]) => { console.log('jobsData ', jobsData) 
-  this.setState({
-    techs: techsData,
-    jobs: jobsData,
-    parts: partsData
-  })})
+    Promise.all([
+        fetch("http://127.0.0.1:5000/tech"),
+        fetch("http://127.0.0.1:5000/jobs"),
+        fetch("http://127.0.0.1:5000/parts")
+    ])
+    .then(([res1, res2, res3]) => Promise.all([res1.json(), res2.json(), res3.json()]))
+    .then(([techsData, jobsData, partsData]) => { console.log('jobsData ', jobsData) 
+    this.setState({
+        techs: techsData,
+        jobs: jobsData,
+        parts: partsData
+    })})
 }
 
 
@@ -57,11 +57,13 @@ updateJobs = (e) => {
             to='/jobs'>
               Jobs
           </NavLink>
-          <NavLink to={{
-            pathname:'/techs'
-          }}>
+          <NavLink to='/techs'>
               Technicians
           </NavLink>
+          <NavLink to='/parts'>
+              Parts
+          </NavLink>
+
             <Switch>
               <Route exact path='/' component={Home} />
               <Route path='/techs'
@@ -76,6 +78,12 @@ updateJobs = (e) => {
                     passJobs={this.state.jobs}
                     passUpdateJobs={this.updateJobs}
                     passTechs={this.state.techs}/>
+                )}/>
+              <Route path='/parts'
+                render={() => (
+                  <Parts
+                    passParts={this.state.parts}
+                    passJobs={this.state.jobs} />                    
                 )}/>
             </Switch>
         </div>
