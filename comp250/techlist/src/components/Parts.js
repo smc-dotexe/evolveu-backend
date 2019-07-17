@@ -9,21 +9,21 @@ class Parts extends React.Component {
         }
     }
 
-    componentDidMount() {
-        const urlParts = 'http://127.0.0.1:5000/parts'
-        fetch(urlParts)
-        .then(res => {
-            if (res.ok) {
-                return res.json()
-            } else {
-                throw Error('Error fetching posts!')
-            }
-        })
-        .then(partsData => {
-            console.log('partsData',partsData)
-            this.setState({ parts: partsData, isLoading: false })
-        })
-    }
+    // componentDidMount() {
+    //     const urlParts = 'http://127.0.0.1:5000/parts'
+    //     fetch(urlParts)
+    //     .then(res => {
+    //         if (res.ok) {
+    //             return res.json()
+    //         } else {
+    //             throw Error('Error fetching posts!')
+    //         }
+    //     })
+    //     .then(partsData => {
+    //         console.log('partsData',partsData)
+    //         this.setState({ parts: partsData, isLoading: false })
+    //     })
+    // }
 
     render() {
         let partRows

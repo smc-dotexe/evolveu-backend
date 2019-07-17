@@ -6,7 +6,6 @@ class Jobs extends React.Component {
         super()
         this.state = {
             isLoading: false,
-            jobs : [],
             selectedTech: ''
         }
     }
@@ -95,7 +94,8 @@ class Jobs extends React.Component {
                         <br />
                         <input
                             id='est_completion'
-                            type='number'
+                            type='numeric'
+                            value={this.props.passJobs.est_completion}
                             name='est_completion'
                             placeholder='Est. Time of Completion'/>
                         <br />

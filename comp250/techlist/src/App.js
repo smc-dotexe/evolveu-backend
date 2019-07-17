@@ -43,6 +43,10 @@ updateJobs = (e) => {
   this.setState({jobs: e})
 }
 
+updateParts = (e) => {
+  console.log('update parts ran')
+}
+
   render() {
     console.log('job state', this.state.jobs)
     return (
@@ -83,6 +87,7 @@ updateJobs = (e) => {
                 render={() => (
                   <Parts
                     passParts={this.state.parts}
+                    passUpdateParts={this.updateParts}
                     passJobs={this.state.jobs} />                    
                 )}/>
             </Switch>
