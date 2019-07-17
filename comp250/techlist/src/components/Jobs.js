@@ -6,7 +6,8 @@ class Jobs extends React.Component {
         super()
         this.state = {
             isLoading: false,
-            jobs : []
+            jobs : [],
+            selectedTech: ''
         }
     }
 
@@ -26,8 +27,39 @@ class Jobs extends React.Component {
     //     })
     // }
 
-    selectTechs = () => {
+    // handleChange = (e) => {
+        
+    // }
 
+    submitJob = (e) => {
+        let ro_number, company, description, est_completion, selectTech
+        ro_number = document.getElementById('ro_number').value
+        company = document.getElementById('company').value
+        description = document.getElementById('description').value
+        est_completion = document.getElementById('est_completion').value
+        selectTech = document.getElementById('selectTech').value
+        
+        e.preventDefault()
+        fetch('http://127.0.0.1:5000/add_job', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({
+                'ro_number': ro_number,
+                'company': company,
+                'description': description,
+                'est_completion': est_completion,
+                'tech_id': selectTech,
+            })
+        })
+        .then(function(response) {
+            if(response.ok){
+                return response.json()
+                } else {
+                throw new Error("Post Failed")
+                }
+        })
+        .then(data => this.props.passUpdateJobs(data))
+        .catch(function(error) {console.log("Request failed", error)})       
     }
 
     render() {
@@ -49,12 +81,12 @@ class Jobs extends React.Component {
             <option key={key} value={tech.tech_id}>{tech.tech_id}. {tech.first_name}</option>
         )
 
-        
+
         return (
             <div>
                 <div id='addJobDiv'>
                     <label>Add Job</label>
-                    <form>
+                    <form method='POST' onSubmit={this.submitJob}>
                         <input
                             id='ro_number'
                             type='number'
@@ -79,7 +111,7 @@ class Jobs extends React.Component {
                             name='est_completion'
                             placeholder='Est. Time of Completion'/>
                         <br />
-                        <select>
+                        <select id='selectTech'>
                             <option value='select'>Select Tech</option>
                             {techRows}
                         </select>
