@@ -167,5 +167,17 @@ def parts_list():
     part_list = [part.serialize() for part in parts]
     return jsonify(part_list)
 
+
+@app.route('/add_part', methods=['GET', 'POST'])
+def add_part():
+    if request.method=='POST':
+        json_data = request.get_json(force=True)
+        add_parts = Parts(job_id=json_data.get('job_id'),
+                          description=json_data.get('description'),
+                          cost=json_data.get('cost'))
+        db.session.add(add_parts)
+        db.session.commit()
+    return redirect(url_for('parts_list'))
+
 if __name__ == '__main__':
     app.run(debug=True)

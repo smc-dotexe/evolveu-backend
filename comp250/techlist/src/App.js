@@ -43,7 +43,7 @@ updateJobs = (e) => {
 }
 
 updateParts = (e) => {
-  console.log('update parts ran')
+  this.setState({parts: e})
 }
 
   render() {
