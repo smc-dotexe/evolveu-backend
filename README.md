@@ -19,7 +19,7 @@ with those numbers.
 <hr />
 
 <h3>comp230 folder (in combination with comp240)</h3>
-<p><b>"pyex2.py"</b>This program reads the "invoice_spreadsheet2.xlsx" and checks for any errors in the spreadsheet (duplicates and empty spaces). It uses an OOP approach to store the data, so when the user inputs the invoice number, it grabs all the information involved and prints the invoice via .txt file. The program also creates a json file with the company's name and address for the "comp240" assignment.<br/>
+<p><b>"pyex2.py"</b> This program reads the "invoice_spreadsheet2.xlsx" and checks for any errors in the spreadsheet (duplicates and empty spaces). It uses an OOP approach to retreive and store the data, so when the user inputs the invoice number, it grabs all the information involved and prints the invoice via .txt file. The program also creates a json file with the company's name and address for the "comp240" assignment.<br/>
 For the endpoints on "pyex2.py", the "/" displays the information on the json. "/template" uses Flask to loop through the json and display the information on a static html page. "/react" when run is for the "GET" request in the front-end section to receive the json and render the data in the react component. 
 </p>
 
