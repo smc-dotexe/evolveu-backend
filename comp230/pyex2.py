@@ -117,7 +117,7 @@ def create_invoice(num):
             product_cost=worker.product_dict[index].cost
             product_num_list.append(product_cost)
 
-        with open('invoice2.txt', 'w') as f:
+        with open('invoice.txt', 'w') as f:
             f.write(f'Invoice No.:{worker.invoice_dict[num].invoice_num} \n'\
                     f'Date: {worker.invoice_dict[num].date}\n') 
             f.write(f'{customer_print.cust_name}\n' \
