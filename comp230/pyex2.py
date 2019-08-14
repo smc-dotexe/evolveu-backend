@@ -7,6 +7,7 @@ import json
 from flask_cors import CORS
 app = Flask(__name__)
 CORS(app) 
+print('test')
 
 class Customer:
     def __init__(self, cust_num, cust_name, address, phone, contact):
